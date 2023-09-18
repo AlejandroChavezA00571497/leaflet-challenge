@@ -1,5 +1,5 @@
-//Using the USGS GeoJSON for the significant earthquakes in the past 30 days
-let geoJsonURL = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson"
+//Using the USGS GeoJSON for all earthquakes in the past day
+let geoJsonURL = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson"
 
 /*
 //Creation of our map object
@@ -50,25 +50,43 @@ function createMap(earthquakeLocations) {
     }).addTo(myMap);
   }
 
+
+  //Function for changing the color of markers according to depth
+  function earthquakeColor(depth) {
+    if (depth < 10 & depth > -10) return "#29ff74";
+    else if (depth >= 10 & depth < 30) return "#94ff29";
+    else if (depth >= 30 & depth < 50) return "#d1ff29";
+    else if (depth >= 50 & depth < 70) return "#ffd129";
+    else if (depth >= 70 & depth < 90) return "#ff7b29";
+    else if (depth >= 90) return "#ff2929";
+    else return "white";
+  }
+
+
+
   function createMarkers(response) {
-    // Pull the "stations" property from response.data.
     let features = response.features;
-    // Initialize an array to hold bike markers.
     let locations = [];
-    // Loop through the stations array.
+    // Loop through the features array.
     for (let index = 0; index < features.length; index++) {
       let location = features[index];
-      // For each station, create a marker, and bind a popup with the station's name.
-      let earthquakeMarker = L.marker([location.geometry.coordinates[1],location.geometry.coordinates[0]])
+
+      let earthquakeMarker = L.circleMarker([location.geometry.coordinates[1],location.geometry.coordinates[0]], {
+        radius : location.properties.mag*4,
+        fillColor : earthquakeColor(location.geometry.coordinates[2]),
+        color : "#000",
+        weight : 1,
+        opacity : .75,
+        fillOpacity : 0.5
+      })
         .bindPopup("<h3>" + location.properties.place + "<h3><h3>Magnitude: " + location.properties.mag + "</h3>");
-      // Add the marker to the bikeMarkers array.
       locations.push(earthquakeMarker);
     }
-    // Create a layer group that's made from the bike markers array, and pass it to the createMap function.
+    // Create a layer group that's made from the locations array, and pass it to the createMap function.
     createMap(L.layerGroup(locations));
   }
 
 
   // Perform an API call to the Earthquakes data to get the required information. Call createMarkers when it completes.
-  d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson").then(createMarkers);
+  d3.json(geoJsonURL).then(createMarkers);
   
