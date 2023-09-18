@@ -34,16 +34,19 @@ function createMap(earthquakeLocations) {
     let baseMaps = {
       "Street Map": streetmap
     };
-    // Create an overlayMaps object to hold the bikeStations layer.
+
+    // Create an overlayMaps object to hold the earthquakeLocations layer.
     let overlayMaps = {
       "Earthquake Locations": earthquakeLocations
     };
+
     // Create the map object with options.
     let myMap = L.map("map", {
       center: [35, -100],
       zoom: 3,
       layers: [streetmap, earthquakeLocations]
     });
+    
     // Create a layer control, and pass it baseMaps and overlayMaps. Add the layer control to the map.
     L.control.layers(baseMaps, overlayMaps, {
       collapsed: false
@@ -84,9 +87,28 @@ function createMap(earthquakeLocations) {
     }
     // Create a layer group that's made from the locations array, and pass it to the createMap function.
     createMap(L.layerGroup(locations));
-  }
+  };
 
 
-  // Perform an API call to the Earthquakes data to get the required information. Call createMarkers when it completes.
-  d3.json(geoJsonURL).then(createMarkers);
+
+// Perform an API call to the Earthquakes data to get the required information. Call createMarkers when it completes.
+d3.json(geoJsonURL).then(createMarkers);
   
+
+//Adding a legend showing the depth of earthquakes
+let legend = L.control({position : "bottomright"});
+
+legend.onAdd = function(){
+  let div = L.DomUtil.create("div", "legend");
+  div.innerHTML += "<h4>Earthquake Depth (Kms)</h4>";
+  div.innerHTML += '<i style="background: #29ff74"></i><span>-10-10</span><br>';
+  div.innerHTML += '<i style="background: #d1ff29"></i><span>-10-10</span><br>';
+  div.innerHTML += '<i style="background: #ffd129"></i><span>-10-10</span><br>';
+  div.innerHTML += '<i style="background: #ff7b29"></i><span>-10-10</span><br>';
+  div.innerHTML += '<i style="background: #ff2929"></i><span>-10-10</span><br>';
+
+return div;
+
+};
+
+legend.addTo(myMap)
