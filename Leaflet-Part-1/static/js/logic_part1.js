@@ -3,28 +3,28 @@ let geoJsonURL = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_
 
 
 function createMap(earthquakeLocations) {
-    // Create the tile layer that will be the background of our map.
+    // Creating the tile layer that will be the background of our map.
     let streetmap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     });
 
-    //Create a topographical layer
+    //Creating a topographical layer
     let topomap = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
     attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
     });
 
-    // Create a baseMaps object to hold the streetmap layer.
+    // Creating a baseMaps object to hold the streetmap layer.
     let baseMaps = {
       "Street Map": streetmap,
       "Topographical Map" : topomap
     };
 
-    // Create an overlayMaps object to hold the earthquakeLocations layer.
+    // Creating an overlayMaps object to hold the earthquakeLocations layer.
     let overlayMaps = {
       "Earthquake Locations": earthquakeLocations
     };
 
-    // Create the map object with options.
+    // Creating the map object with options.
     var myMap = L.map("map", {
       center: [35, -100],
       zoom: 3,
@@ -33,7 +33,7 @@ function createMap(earthquakeLocations) {
 
     var legend = L.control({ position: "bottomright" });
 
-    // Create a layer control, and pass it baseMaps and overlayMaps. Add the layer control to the map.
+    // Creating a layer control, and pass it baseMaps and overlayMaps. Add the layer control to the map.
     L.control.layers(baseMaps, overlayMaps, {
       collapsed: false
     }).addTo(myMap);
@@ -72,7 +72,7 @@ function createMap(earthquakeLocations) {
   function createMarkers(response) {
     let features = response.features;
     let locations = [];
-    // Loop through the features array.
+    // Looping through the features array.
     for (let index = 0; index < features.length; index++) {
       let location = features[index];
 
@@ -87,10 +87,10 @@ function createMap(earthquakeLocations) {
         .bindPopup("<h3>" + location.properties.place + "</h3><h3>Magnitude: " + location.properties.mag + " Ricther Degrees </h3><h3>Depth: " + location.geometry.coordinates[2] + " km </h3>");
       locations.push(earthquakeMarker);
     }
-    // Create a layer group that's made from the locations array, and pass it to the createMap function.
+    // Creating a layer group that's made from the locations array, and pass it to the createMap function.
     createMap(L.layerGroup(locations));
   };
 
 
-// Perform an API call to the Earthquakes data to get the required information. Call createMarkers when it completes.
+// Performing an API call to the Earthquakes data to get the required information. Call createMarkers when it completes.
 d3.json(geoJsonURL).then(createMarkers);
