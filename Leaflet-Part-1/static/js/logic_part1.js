@@ -40,6 +40,7 @@ function createMap(earthquakeLocations) {
     }).addTo(myMap);
 
     //Adding a legend showing the depth of earthquakes
+    //Code taken from: https://codepen.io/haakseth/pen/KQbjdO
     var legend = L.control({position : "bottomright"});
     legend.onAdd = function(){
     var div = L.DomUtil.create("div", "legend");
