@@ -2,7 +2,6 @@
 let geoJsonURL = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson"
 
 
-
 function createMap(earthquakeLocations) {
     // Create the tile layer that will be the background of our map.
     let streetmap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -70,7 +69,6 @@ function createMap(earthquakeLocations) {
   };
 
 
-
   function createMarkers(response) {
     let features = response.features;
     let locations = [];
@@ -94,29 +92,5 @@ function createMap(earthquakeLocations) {
   };
 
 
-
 // Perform an API call to the Earthquakes data to get the required information. Call createMarkers when it completes.
 d3.json(geoJsonURL).then(createMarkers);
-  
-
-
-
-
-/*
-//Adding a legend showing the depth of earthquakes
-var legend = L.control({position : "bottomright"});
-legend.onAdd = function(){
-  var div = L.DomUtil.create("div", "legend");
-  div.innerHTML += "<h4>Earthquake Depth (Kms)</h4>";
-  div.innerHTML += '<i style="background: #29ff74"></i><span>-10-10</span><br>';
-  div.innerHTML += '<i style="background: #94ff29"></i><span>10-30</span><br>';
-  div.innerHTML += '<i style="background: #d1ff29"></i><span>30-50</span><br>';
-  div.innerHTML += '<i style="background: #ffd129"></i><span>50-70</span><br>';
-  div.innerHTML += '<i style="background: #ff7b29"></i><span>70-90</span><br>';
-  div.innerHTML += '<i style="background: #ff2929"></i><span>90+</span><br>';
-return div;
-};
-legend.addTo(myMap)
-*/
-
-//https://codepen.io/haakseth/pen/KQbjdO
