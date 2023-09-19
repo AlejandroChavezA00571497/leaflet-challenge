@@ -44,12 +44,12 @@ function createMap(earthquakeLocations) {
     legend.onAdd = function(){
     var div = L.DomUtil.create("div", "legend");
     div.innerHTML += "<h4>Earthquake Depth (Kms)</h4>";
-    div.innerHTML += '<i style="background: #29ff74"</i><span>-10-10</span><br>';
-    div.innerHTML += '<i style="background: #94ff29"</i><span>10-30</span><br>';
-    div.innerHTML += '<i style="background: #d1ff29"</i><span>30-50</span><br>';
-    div.innerHTML += '<i style="background: #ffd129"</i><span>50-70</span><br>';
-    div.innerHTML += '<i style="background: #ff7b29"</i><span>70-90</span><br>';
-    div.innerHTML += '<i style="background: #ff2929"</i><span>90+</span><br>';
+    div.innerHTML += '<i style="background: #29ff74"></i><span>-10-10</span><br>';
+    div.innerHTML += '<i style="background: #94ff29"></i><span>10-30</span><br>';
+    div.innerHTML += '<i style="background: #d1ff29"></i><span>30-50</span><br>';
+    div.innerHTML += '<i style="background: #ffd129"></i><span>50-70</span><br>';
+    div.innerHTML += '<i style="background: #ff7b29"></i><span>70-90</span><br>';
+    div.innerHTML += '<i style="background: #ff2929"></i><span>90+</span><br>';
     return div;
     };
     legend.addTo(myMap)
@@ -85,7 +85,7 @@ function createMap(earthquakeLocations) {
         opacity : .75,
         fillOpacity : 0.5
       })
-        .bindPopup("<h3>" + location.properties.place + "<h3><h3>Magnitude: " + location.properties.mag + "</h3>");
+        .bindPopup("<h3>" + location.properties.place + "</h3><h3>Magnitude: " + location.properties.mag + " Ricther Degrees </h3><h3>Depth: " + location.geometry.coordinates[2] + " km </h3>");
       locations.push(earthquakeMarker);
     }
     // Create a layer group that's made from the locations array, and pass it to the createMap function.
@@ -118,3 +118,4 @@ return div;
 legend.addTo(myMap)
 */
 
+//https://codepen.io/haakseth/pen/KQbjdO
